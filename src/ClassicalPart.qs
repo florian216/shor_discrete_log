@@ -31,6 +31,13 @@ function LogFromFrequencies(freq1 : Int, freq2 : Int, q : Int, bitsPrecision : I
     //" β = ⌊sl'/q · q⌋"
     let beta = Round(IntAsDouble(freq1) / IntAsDouble(N) * IntAsDouble(q));
 
+
+    if (GreatestCommonDivisorI(l, q) != 1) {
+        // l et q no co-prime, circuit quantique à pas fonctionner 
+        Message("l and q aren't co-primes");
+        return -1; 
+    }
+
     // "linv = 1/l [q]"
     let lInv = InverseModI(l, q);
 
@@ -55,7 +62,7 @@ operation DiscreteLog(g : Int, h : Int, p : Int) : Int {
     Fact(GreatestCommonDivisorI(g, p) == 1, "g et p doivent être premiers entre eux");
 
     //je sais pas si ca marche tout le temps de faire ca
-    let q = (p - 1) / 2;
+    let q = (p - 1);
 
     mutable found = false;
     mutable result = -1;
@@ -70,7 +77,7 @@ operation DiscreteLog(g : Int, h : Int, p : Int) : Int {
         attempt += 1;
     } until found or attempt > 100
     fixup {
-        Message("ca passe pas")
+        Message("Repeat")
     }
     return result;
 }
