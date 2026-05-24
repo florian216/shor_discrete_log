@@ -1,3 +1,4 @@
+import Std.Math.InverseModI;
 import Std.Random.DrawRandomInt;
 import PhaseEstimation.EstimateFrequency;
 import Std.Math.Ceiling;
@@ -19,17 +20,6 @@ function VerifyDiscreteLog(generator : Int, target : Int, modulus : Int, candida
     return ExpModI(generator, candidate, modulus) == target % modulus;
 }
 
-// fct auxiliaire pour trouver l'inverse modulo avec algo remontee euclide
-function ModularInverse(a : Int, m : Int) : Int {
-    mutable (old_r, r) = (a % m, m);
-    mutable (old_s, s) = (1, 0);
-    while (r != 0) {
-        let q = old_r / r;
-        set (old_r, r) = (r, old_r - q * r);
-        set (old_s, s) = (s, old_s - q * s);
-    }
-    return ((old_s % m) + m) % m;
-}
 
 // calculs de la Section II.B, page 5
 function LogFromFrequencies(freq1 : Int, freq2 : Int, q : Int, bitsPrecision : Int) : Int {
@@ -42,7 +32,7 @@ function LogFromFrequencies(freq1 : Int, freq2 : Int, q : Int, bitsPrecision : I
     let beta = Round(IntAsDouble(freq1) / IntAsDouble(N) * IntAsDouble(q));
 
     // "linv = 1/l [q]"
-    let lInv = ModularInverse(l, q);
+    let lInv = InverseModI(l, q);
 
     // retourne beta/l [q], donc s
     return (beta * lInv) % q;
