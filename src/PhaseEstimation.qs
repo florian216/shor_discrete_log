@@ -47,5 +47,5 @@ operation EstimateFrequency(g : Int, h: Int, modulo : Int, moduloBitSize : Int) 
         i-=1;
     }
     ResetAll(qs);
-    return (frequency_b, frequency_a);
+    return (frequency_a, frequency_b);
 }
