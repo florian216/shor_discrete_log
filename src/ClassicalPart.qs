@@ -23,8 +23,9 @@ function VerifyDiscreteLog(generator : Int, target : Int, modulus : Int, candida
 
 // calculs de la Section II.B, page 5
 function LogFromFrequencies(freq1 : Int, freq2 : Int, N : Int, p : Int, g : Int, h : Int) : Int {
-    let (k, q) = ContinuedFractionConvergentI((freq1, N), p);
-    
+    mutable (k, q) = ContinuedFractionConvergentI((freq1, N), p);
+    k = AbsI(k);
+    q = AbsI(q);
     if q <= 1 {
         return -1;  
     }
